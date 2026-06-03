@@ -1,0 +1,41 @@
+{
+	"schemaVersion": 1,
+	"id": "sky-high",
+	"version": "${version}",
+	"name": "Sky High",
+	"description": "Mod for skyblock, introducing things like a banking system",
+	"authors": [
+		"goldenSlendermen1"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "GPL-3.0-or-later",
+	"icon": "assets/sky-high/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"io.github.goldenslendermen1.skyhigh.SkyHigh"
+		],
+		"client": [
+			"io.github.goldenslendermen1.skyhigh.client.SkyHighClient"
+		],
+		"fabric-datagen": [
+			"io.github.goldenslendermen1.skyhigh.client.SkyHighDataGenerator"
+		]
+	},
+	"mixins": [
+		"sky-high.mixins.json",
+		{
+			"config": "sky-high.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.14.20",
+		"minecraft": "~1.21.1",
+		"java": ">=21",
+		"fabric-api": ">=0.116.1"
+	}
+}
