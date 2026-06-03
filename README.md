@@ -1,9 +1,6 @@
 # Sky High
-
-## Setup
-
-For setup instructions, please see the [Fabric Documentation page](https://docs.fabricmc.net/develop/getting-started/creating-a-project#setting-up) related to the IDE that you are using.
+A mod for sky block worlds that adds features like a banking system
 
 ## License
-
-This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
+This mod is licensed under the GNU General Public License v3.0 (or later).
+See the LICENSE file for details.
