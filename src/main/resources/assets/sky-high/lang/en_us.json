@@ -9,5 +9,7 @@
     "item.sky-high.yollar_value_50": "Yollar Bill",
     "item.sky-high.yollar_value_100": "Yollar Bill",
     "item.sky-high.yollar_value_500": "Yollar Bill",
-    "item.sky-high.yollar_value_1000": "Yollar Bill"
+    "item.sky-high.yollar_value_1000": "Yollar Bill",
+    "itemGroup.sky-high": "SkyHigh",
+    "itemGroup.skyhigh": "SkyHigh"
 }

@@ -3,7 +3,7 @@
 	"package": "io.github.goldenslendermen1.skyhigh.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
-		"ExampleMixin"
+        "CommandContextAccessWidener"
 	],
 	"injectors": {
 		"defaultRequire": 1

@@ -23,7 +23,6 @@ loom {
 			sourceSet sourceSets.client
 		}
 	}
-
 }
 
 fabricApi {

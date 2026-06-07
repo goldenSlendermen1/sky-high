@@ -1,18 +1,18 @@
 /**
  * Copyright (C) 2026 goldenSlendermen1
- *
+ * <p>
  * This file is part of SkyHigh.
- *
+ * <p>
  * SkyHigh is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- *
+ * <p>
  * SkyHigh is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License
  * along with SkyHigh. If not, see <https://www.gnu.org/licenses/>.
  */
@@ -23,25 +23,15 @@ import io.github.goldenslendermen1.skyhigh.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.world.PersistentState;
-import net.minecraft.world.PersistentStateManager;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
-public class PlayerBankData extends PersistentState {
-    public static final Type<PlayerBankData> TYPE =
-        new Type<>(
-            PlayerBankData::new,
-            PlayerBankData::createFromNbt,
-            null
-        );
-
-
+public class PlayerBankData {
     public static final double HIGHEST_DENOMINATION = 1000.0;
     public static final double LOWEST_DENOMINATION = 0.01;
     public static final List<Double> DENOMINATIONS = new ArrayList<>(Arrays.asList(
@@ -76,6 +66,12 @@ public class PlayerBankData extends PersistentState {
 
     @NotNull
     public final UUID UUID;
+
+    @NotNull
+    public final String DISPLAY_NAME;
+
+    private boolean dirty;
+
     private double savings = 100.0;
 
     private double creditScore = 50.0;
@@ -86,39 +82,70 @@ public class PlayerBankData extends PersistentState {
     private long loanStartTime = 0;
     private double loanInitialCreditScore = 0.0;
 
-    public PlayerBankData() {
-        this.UUID = java.util.UUID.randomUUID();
-    }
-
+    @SuppressWarnings("unused")
     public PlayerBankData(@NotNull UUID uuid) {
         this.UUID = uuid;
+        this.DISPLAY_NAME = "";
     }
 
-    @Override
-    public NbtCompound writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
+    public PlayerBankData(@NotNull UUID uuid, @NotNull String displayName) {
+        this.UUID = uuid;
+        this.DISPLAY_NAME = displayName;
+    }
+
+    @SuppressWarnings("unused")
+    public PlayerBankData(@NotNull ServerPlayerEntity player) {
+        this.UUID = player.getUuid();
+        this.DISPLAY_NAME = player.getName().getString();
+    }
+
+    public void markDirty() {
+        this.setDirty(true);
+    }
+
+    public void setDirty(boolean dirty) {
+        this.dirty = dirty;
+    }
+
+    public boolean isDirty() {
+        return this.dirty;
+    }
+
+    public void writeNbt(NbtCompound nbt) {
         nbt.putUuid("UUID", UUID);
+        nbt.putString("DisplayName", DISPLAY_NAME);
         nbt.putDouble("Savings", savings);
         nbt.putDouble("CreditScore", creditScore);
         nbt.putDouble("Loaned", loaned);
         nbt.putDouble("LoanInitialCreditScore", loanInitialCreditScore);
         nbt.putLong("LoanStartTime", loanStartTime);
-        return nbt;
     }
 
-    public static PlayerBankData createFromNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
-        PlayerBankData data = new PlayerBankData(nbt.getUuid("UUID"));
-        data.savings = nbt.getDouble("Savings");
-        data.creditScore = nbt.getDouble("CreditScore");
+    @SuppressWarnings("unused")
+    public static PlayerBankData fromNbt(@Nullable PlayerBankData output, NbtCompound nbt, int version) {
+        if (output == null)
+            output = new PlayerBankData(
+                nbt.getUuid("UUID"),
+                nbt.getString("DisplayName")
+            );
 
-        if (data.creditScore != 50.0) {
-            data.creditScoreSquared = -1;
-            data.maximumAllowedLoan = -1;
+        output.savings = nbt.getDouble("Savings");
+        output.creditScore = nbt.getDouble("CreditScore");
+
+        if (output.creditScore != 50.0) {
+            output.creditScoreSquared = -1;
+            output.maximumAllowedLoan = -1;
         }
 
-        data.loaned = nbt.getDouble("Loaned");
-        data.loanInitialCreditScore = nbt.getDouble("LoanInitialCreditScore");
-        data.loanStartTime = nbt.getLong("LoanStartTime");
-        return data;
+        output.loaned = nbt.getDouble("Loaned");
+        output.loanInitialCreditScore = nbt.getDouble("LoanInitialCreditScore");
+        output.loanStartTime = nbt.getLong("LoanStartTime");
+        return output;
+    }
+
+    @SuppressWarnings("unused")
+    public static PlayerBankData fromNbt(NbtCompound nbt, int version) {
+        return fromNbt(null, nbt, version);
     }
 
     public static double splitAmountIntoItems(double amount, Consumer<ItemStack> consumer) {
@@ -141,6 +168,7 @@ public class PlayerBankData extends PersistentState {
         return originalAmount - amount;
     }
 
+    @Deprecated
     public static List<ItemStack> getItemsForAmount(double amount) {
         List<ItemStack> list = new ArrayList<>();
         splitAmountIntoItems(amount, list::add);
@@ -160,17 +188,17 @@ public class PlayerBankData extends PersistentState {
         markDirty();
     }
 
+    public void setSavings(Function<Double, Double> supplier) {
+        this.savings = supplier.apply(this.savings);
+        markDirty();
+    }
+
     public void resetSavings() {
         this.savings = 100.0;
         markDirty();
     }
 
-    @Deprecated
-    public void addSavings(double savings) {
-        this.savings += savings;
-        markDirty();
-    }
-
+    @SuppressWarnings("unused")
     public boolean canWidthdrawSavings(double amount) {
         return amount <= savings && amount >= LOWEST_DENOMINATION;
     }
@@ -214,6 +242,7 @@ public class PlayerBankData extends PersistentState {
         return maximumAllowedLoan;
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public boolean addLoan(double loanAmount, long loanStartTime) {
         if (this.hasLoan())
             return false;
@@ -226,6 +255,15 @@ public class PlayerBankData extends PersistentState {
         return true;
     }
 
+    @SuppressWarnings("unused")
+    public void setLoan(Function<Double, Double> supplier, long loanStartTime) {
+        this.loaned = supplier.apply(this.loaned);
+        this.loanStartTime = loanStartTime;
+        this.loanInitialCreditScore = this.creditScore;
+        markDirty();
+    }
+
+    @SuppressWarnings("UnusedReturnValue")
     public boolean payLoan(double amount) {
         if (!this.hasLoan())
             return false;
@@ -252,6 +290,13 @@ public class PlayerBankData extends PersistentState {
         markDirty();
     }
 
+    public void setCreditScore(Function<Double, Double> supplier) {
+        this.creditScore = supplier.apply(this.creditScore);
+        creditScoreSquared = -1;
+        maximumAllowedLoan = -1;
+        markDirty();
+    }
+
     public void resetCreditScore() {
         this.creditScore = 50.0;
         creditScoreSquared = 2500.0;
@@ -259,12 +304,30 @@ public class PlayerBankData extends PersistentState {
         markDirty();
     }
 
-    public static PlayerBankData get(ServerWorld world, UUID uuid) {
-        PersistentStateManager manager = world.getPersistentStateManager();
+    public boolean authorizeUuid(UUID uuid) {
+        if (uuid.equals(this.UUID))
+            return false;
 
-        return manager.getOrCreate(
-            TYPE,
-            "skyhigh_playerbank_" + uuid.toString()
-        );
+        return BankStorage.getBankPermissions().authorizeUuid(uuid, this.UUID);
+    }
+
+    public boolean unauthorizeUuid(UUID uuid) {
+        if (uuid.equals(this.UUID))
+            return false;
+
+        return BankStorage.getBankPermissions().unauthorizeUuid(uuid, this.UUID);
+    }
+
+    public boolean isUuidAuthorized(UUID uuid) {
+        if (uuid.equals(this.UUID))
+            return true;
+
+        return BankStorage.getBankPermissions().isUuidAuthorized(uuid, this.UUID);
+    }
+
+    public Set<UUID> getAuthorizedUuids() {
+        Set<UUID> authorizedUuids = BankStorage.getBankPermissions().getAuthorizedUuids(this.UUID);
+        authorizedUuids.add(this.UUID);
+        return authorizedUuids;
     }
 }
