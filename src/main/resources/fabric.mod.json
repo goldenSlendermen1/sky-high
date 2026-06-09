@@ -5,11 +5,12 @@
 	"name": "Sky High",
 	"description": "Mod for skyblock, introducing things like a banking system",
 	"authors": [
-		"goldenSlendermen1"
+		"goldenSlendermen1",
+		"Wypixla"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://modrinth.com/project/HpiP06uz",
+		"sources": "https://github.com/goldenSlendermen1/sky-high"
 	},
 	"license": "GPL-3.0-or-later",
 	"icon": "assets/sky-high/icon.png",
@@ -34,7 +35,7 @@
 	],
 	"depends": {
 		"fabricloader": ">=0.14.20",
-		"minecraft": "~1.21.1",
+		"minecraft": ">=1.21 <=1.21.1",
 		"java": ">=21",
 		"fabric-api": ">=0.116.1"
 	}

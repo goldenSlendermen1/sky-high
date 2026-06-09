@@ -40,7 +40,6 @@ public class SkyHigh implements ModInitializer {
 		Components.initialize();
 		Items.initialize();
 		ItemGroups.initialize();
-		DamageSources.initialize();
 
 		CommandRegistrationCallback.EVENT.register(Commands::register);
 
@@ -65,7 +64,7 @@ public class SkyHigh implements ModInitializer {
 	@SuppressWarnings("unused")
     private void onNewDay(ServerWorld world){
 		BankStorage.forEach(bankData -> {
-			bankData.setCreditScore(creditScore -> creditScore + Math.pow(bankData.getSavings(), 5.0));
+			bankData.setCreditScore(creditScore -> Math.min(100.0, creditScore + Math.pow(bankData.getSavings(), 5.0)));
 			bankData.setSavings(savings -> savings * 1.106);
 
 			if (!bankData.hasLoan())
