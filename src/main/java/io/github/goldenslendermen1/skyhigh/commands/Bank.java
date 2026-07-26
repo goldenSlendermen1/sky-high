@@ -27,6 +27,7 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import io.github.goldenslendermen1.skyhigh.Components;
 import io.github.goldenslendermen1.skyhigh.commands.bank.Admin;
+import io.github.goldenslendermen1.skyhigh.helper.Command;
 import io.github.goldenslendermen1.skyhigh.world.data.BankStorage;
 import io.github.goldenslendermen1.skyhigh.world.data.PlayerBankData;
 import net.minecraft.command.argument.EntityArgumentType;
@@ -65,32 +66,32 @@ public class Bank {
     public static LiteralArgumentBuilder<ServerCommandSource> createInfoSubset() {
         return CommandManager.literal("info")
             .then(CommandManager.literal("savings")
-                .executes(Bank::savingsBalance))
+                .executes(Command.asLogging(Bank::savingsBalance)))
             .then(CommandManager.literal("loan")
-                .executes(Bank::loanBalance))
+                .executes(Command.asLogging(Bank::loanBalance)))
             .then(CommandManager.literal("credit")
-                .executes(Bank::creditScore))
+                .executes(Command.asLogging(Bank::creditScore)))
             .then(CommandManager.literal("permission")
-                .executes(Bank::authorized));
+                .executes(Command.asLogging(Bank::authorized)));
     }
 
     public static LiteralArgumentBuilder<ServerCommandSource> createDepositSubset() {
         return CommandManager.literal("deposit")
             .then(CommandManager.literal("savings")
-                .executes(Bank::depositSavings))
+                .executes(Command.asLogging(Bank::depositSavings)))
             .then(CommandManager.literal("loan")
-                .then(CommandManager.argument("amount", DoubleArgumentType.doubleArg(0.05))
-                    .executes(Bank::depositLoan)));
+                .then(CommandManager.argument("amount", DoubleArgumentType.doubleArg(0.01))
+                    .executes(Command.asLogging(Bank::depositLoan))));
     }
 
     public static LiteralArgumentBuilder<ServerCommandSource> createWithdrawSubset() {
         return CommandManager.literal("withdraw")
             .then(CommandManager.literal("savings")
-                .then(CommandManager.argument("amount", DoubleArgumentType.doubleArg(0.05))
-                    .executes(Bank::withdrawSavings)))
+                .then(CommandManager.argument("amount", DoubleArgumentType.doubleArg(0.01))
+                    .executes(Command.asLogging(Bank::withdrawSavings))))
             .then(CommandManager.literal("loan")
-                .then(CommandManager.argument("amount", DoubleArgumentType.doubleArg(0.05))
-                    .executes(Bank::withdrawLoan)));
+                .then(CommandManager.argument("amount", DoubleArgumentType.doubleArg(0.01))
+                    .executes(Command.asLogging(Bank::withdrawLoan))));
     }
 
     public static LiteralArgumentBuilder<ServerCommandSource> createPermissionSubset() {
@@ -98,19 +99,19 @@ public class Bank {
             .then(CommandManager.literal("authorize")
                 .then(CommandManager.literal("online")
                     .then(CommandManager.argument("targets", EntityArgumentType.players())
-                        .executes(Bank::authorize)))
+                        .executes(Command.asLogging(Bank::authorize))))
                 .then(CommandManager.literal("offline")
                     .then(CommandManager.argument("target", StringArgumentType.word())
-                        .executes(Bank::authorize))))
+                        .executes(Command.asLogging(Bank::authorize)))))
             .then(CommandManager.literal("unauthorize")
                 .then(CommandManager.literal("online")
                     .then(CommandManager.argument("targets", EntityArgumentType.players())
-                        .executes(Bank::unauthorize)))
+                        .executes(Command.asLogging(Bank::unauthorize))))
                 .then(CommandManager.literal("offline")
                     .then(CommandManager.argument("target", StringArgumentType.word())
-                        .executes(Bank::unauthorize))))
+                        .executes(Command.asLogging(Bank::unauthorize)))))
             .then(CommandManager.literal("reset")
-                .executes(Bank::resetPermission));
+                .executes(Command.asLogging(Bank::resetPermission)));
     }
 
     @Nullable
@@ -413,10 +414,6 @@ public class Bank {
     private static int resetPermission(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
         ServerCommandSource source = context.getSource();
         ServerPlayerEntity player = source.getPlayer();
-        List<UUID> uuids = getTargetUuids(context, source);
-
-        if (uuids == null)
-            return offlinePlayerNotFoundError(source);
 
         if (player == null)
             return playerExecutedError(source);

@@ -3,6 +3,7 @@ package io.github.goldenslendermen1.skyhigh.helper;
 import com.mojang.authlib.GameProfile;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
+import io.github.goldenslendermen1.skyhigh.SkyHigh;
 import io.github.goldenslendermen1.skyhigh.world.data.BankStorage;
 import io.github.goldenslendermen1.skyhigh.world.data.PlayerBankData;
 import net.minecraft.server.command.ServerCommandSource;
@@ -20,6 +21,17 @@ public class Command {
     public static <S>
     WidenedCommandContext<S> widen(CommandContext<S> context) {
         return (WidenedCommandContext<S>) context;
+    }
+
+    public static com.mojang.brigadier.Command<ServerCommandSource> asLogging(com.mojang.brigadier.Command<ServerCommandSource> method) {
+        return context -> {
+            try {
+                return method.run(context);
+            } catch(Exception exception) {
+                SkyHigh.LOGGER.error("An error occured while executing a command!", exception);
+                return 0;
+            }
+        };
     }
 
     public static Optional<UUID> getOfflinePlayerUUIDFromName(CommandContext<ServerCommandSource> context, String argumentName) {
