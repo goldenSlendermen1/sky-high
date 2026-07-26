@@ -216,7 +216,7 @@ public class Bank {
             return notAuthorizedError(source, bankData);
 
         double savings = bankData.getSavings();
-        success(source, "Savings has Ɏ" + savings, Formatting.YELLOW);
+        success(source, "Savings has Ɏ" + Math.floor(savings * 100) / 100D, Formatting.YELLOW);
         return (int) savings;
     }
 
@@ -235,7 +235,7 @@ public class Bank {
             return notAuthorizedError(source, bankData);
 
         double creditScore = bankData.getCreditScore();
-        success(source, "Credit score is " + creditScore, Formatting.YELLOW);
+        success(source, "Credit score is " + Math.floor(creditScore), Formatting.YELLOW);
         return (int) creditScore;
     }
 
@@ -283,7 +283,7 @@ public class Bank {
             source,
             (loanedAmount <= 0.0)
                 ? "There are no outstanding loans"
-                : "There is 1 outstanding loan for Ɏ" + loanedAmount,
+                : "There is 1 outstanding loan for Ɏ" + Math.floor(loanedAmount * 100) / 100D,
             Formatting.YELLOW
         );
 
@@ -411,7 +411,7 @@ public class Bank {
         return alreadyUnauthorized;
     }
 
-    private static int resetPermission(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
+    private static int resetPermission(CommandContext<ServerCommandSource> context) {
         ServerCommandSource source = context.getSource();
         ServerPlayerEntity player = source.getPlayer();
 
