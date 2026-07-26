@@ -65,7 +65,7 @@ public class SkyHigh implements ModInitializer {
     private void onNewDay(ServerWorld world){
 		BankStorage.forEach(bankData -> {
 			bankData.setCreditScore(creditScore -> Math.min(100.0, creditScore + Math.pow(bankData.getSavings(), 5.0)));
-			bankData.setSavings(savings -> savings * 1.106);
+			bankData.setSavings(savings -> Math.min(savings * 1.2, savings + Math.pow(savings, -0.3D) * 80));
 
 			if (!bankData.hasLoan())
 				return;
