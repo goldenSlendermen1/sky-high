@@ -17,15 +17,19 @@ public class ItemGroups {
     @SuppressWarnings("unused")
     public static final ItemGroup SKYHIGH = register(
         SKYHIGH_KEY,
-        Items.YOLLAR_VALUE_1,
-        Items.YOLLAR_VALUE_1,
-        Items.YOLLAR_VALUE_3,
-        Items.YOLLAR_VALUE_5,
-        Items.YOLLAR_VALUE_10,
-        Items.YOLLAR_VALUE_50,
-        Items.YOLLAR_VALUE_100,
-        Items.YOLLAR_VALUE_500,
-        Items.YOLLAR_VALUE_1000
+        Items.YOLLAR_VALUE_0_01,
+        Items.YOLLAR_VALUE_0_05,
+        Items.YOLLAR_VALUE_0_25,
+        Items.YOLLAR_VALUE_0_50,
+        Items.YOLLAR_VALUE_1_00,
+        Items.YOLLAR_VALUE_1_00,
+        Items.YOLLAR_VALUE_3_00,
+        Items.YOLLAR_VALUE_5_00,
+        Items.YOLLAR_VALUE_10_00,
+        Items.YOLLAR_VALUE_50_00,
+        Items.YOLLAR_VALUE_100_00,
+        Items.YOLLAR_VALUE_500_00,
+        Items.YOLLAR_VALUE_1000_00
     );
 
     public static RegistryKey<ItemGroup> getRegistryKey(String name) {

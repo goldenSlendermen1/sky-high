@@ -31,14 +31,18 @@ import static io.github.goldenslendermen1.skyhigh.SkyHigh.MOD_ID;
 import static io.github.goldenslendermen1.skyhigh.items.Yollar.registerPresetYollar;
 
 public class Items {
-    public static final Item YOLLAR_VALUE_1 = registerPresetYollar("yollar_value_1", 1.0);
-    public static final Item YOLLAR_VALUE_3 = registerPresetYollar("yollar_value_3", 3.0);
-    public static final Item YOLLAR_VALUE_5 = registerPresetYollar("yollar_value_5", 5.0);
-    public static final Item YOLLAR_VALUE_10 = registerPresetYollar("yollar_value_10", 10.0);
-    public static final Item YOLLAR_VALUE_50 = registerPresetYollar("yollar_value_50", 50.0);
-    public static final Item YOLLAR_VALUE_100 = registerPresetYollar("yollar_value_100", 100.0);
-    public static final Item YOLLAR_VALUE_500 = registerPresetYollar("yollar_value_500", 500.0);
-    public static final Item YOLLAR_VALUE_1000 = registerPresetYollar("yollar_value_1000", 1000.0);
+    public static final Item YOLLAR_VALUE_0_01 = registerPresetYollar("yollar_value_0_01", 0.01);
+    public static final Item YOLLAR_VALUE_0_05 = registerPresetYollar("yollar_value_0_05", 0.05);
+    public static final Item YOLLAR_VALUE_0_25 = registerPresetYollar("yollar_value_0_25", 0.25);
+    public static final Item YOLLAR_VALUE_0_50 = registerPresetYollar("yollar_value_0_50", 0.50);
+    public static final Item YOLLAR_VALUE_1_00 = registerPresetYollar("yollar_value_1_00", 1.00);
+    public static final Item YOLLAR_VALUE_3_00 = registerPresetYollar("yollar_value_3_00", 3.00);
+    public static final Item YOLLAR_VALUE_5_00 = registerPresetYollar("yollar_value_5_00", 5.00);
+    public static final Item YOLLAR_VALUE_10_00 = registerPresetYollar("yollar_value_10_00", 10.00);
+    public static final Item YOLLAR_VALUE_50_00 = registerPresetYollar("yollar_value_50_00", 50.00);
+    public static final Item YOLLAR_VALUE_100_00 = registerPresetYollar("yollar_value_100_00", 100.00);
+    public static final Item YOLLAR_VALUE_500_00 = registerPresetYollar("yollar_value_500_00", 500.00);
+    public static final Item YOLLAR_VALUE_1000_00 = registerPresetYollar("yollar_value_1000_00", 1000.00);
 
     public static void initialize() {
         SkyHigh.LOGGER.info("Registering items...");

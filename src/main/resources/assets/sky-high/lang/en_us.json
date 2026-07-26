@@ -2,14 +2,20 @@
     "item.sky-high.yollar.tooltip.has_value": "Ɏ%1$s",
     "item.sky-high.yollar.tooltip.missing_value": "How did you get this :suspicious_dog:",
 
-    "item.sky-high.yollar_value_1": "Yollar Bill",
-    "item.sky-high.yollar_value_3": "Yollar Bill",
-    "item.sky-high.yollar_value_5": "Yollar Bill",
-    "item.sky-high.yollar_value_10": "Yollar Bill",
-    "item.sky-high.yollar_value_50": "Yollar Bill",
-    "item.sky-high.yollar_value_100": "Yollar Bill",
-    "item.sky-high.yollar_value_500": "Yollar Bill",
-    "item.sky-high.yollar_value_1000": "Yollar Bill",
     "itemGroup.sky-high": "SkyHigh",
-    "itemGroup.skyhigh": "SkyHigh"
+    "itemGroup.skyhigh": "SkyHigh",
+
+    "item.sky-high.yollar_value_0_01": "Yent Coin",
+    "item.sky-high.yollar_value_0_05": "Yent Coin",
+    "item.sky-high.yollar_value_0_25": "Yent Coin",
+    "item.sky-high.yollar_value_0_50": "Yent Coin",
+
+    "item.sky-high.yollar_value_1_00": "Yollar Bill",
+    "item.sky-high.yollar_value_3_00": "Yollar Bill",
+    "item.sky-high.yollar_value_5_00": "Yollar Bill",
+    "item.sky-high.yollar_value_10_00": "Yollar Bill",
+    "item.sky-high.yollar_value_50_00": "Yollar Bill",
+    "item.sky-high.yollar_value_100_00": "Yollar Bill",
+    "item.sky-high.yollar_value_500_00": "Yollar Bill",
+    "item.sky-high.yollar_value_1000_00": "Yollar Bill"
 }

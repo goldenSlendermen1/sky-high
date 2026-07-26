@@ -37,7 +37,7 @@ public class PlayerBankData {
     public static final List<Double> DENOMINATIONS = new ArrayList<>(Arrays.asList(
         LOWEST_DENOMINATION,
         0.05,
-        0.10,
+        0.25,
         0.50,
         1.0,
         3.0,
@@ -50,18 +50,18 @@ public class PlayerBankData {
     ));
 
     public static final Map<Double, Item> DENOMINATION_TO_ITEM = Map.ofEntries(
-        Map.entry(LOWEST_DENOMINATION, Items.YOLLAR_VALUE_1),
-        Map.entry(0.05, Items.YOLLAR_VALUE_1),
-        Map.entry(0.10, Items.YOLLAR_VALUE_1),
-        Map.entry(0.50, Items.YOLLAR_VALUE_1),
-        Map.entry(1.0, Items.YOLLAR_VALUE_1),
-        Map.entry(3.0, Items.YOLLAR_VALUE_3),
-        Map.entry(5.0, Items.YOLLAR_VALUE_5),
-        Map.entry(10.0, Items.YOLLAR_VALUE_10),
-        Map.entry(50.0, Items.YOLLAR_VALUE_50),
-        Map.entry(100.0, Items.YOLLAR_VALUE_100),
-        Map.entry(500.0, Items.YOLLAR_VALUE_500),
-        Map.entry(HIGHEST_DENOMINATION, Items.YOLLAR_VALUE_1000)
+        Map.entry(LOWEST_DENOMINATION, Items.YOLLAR_VALUE_0_01),
+        Map.entry(0.05, Items.YOLLAR_VALUE_0_05),
+        Map.entry(0.25, Items.YOLLAR_VALUE_0_25),
+        Map.entry(0.50, Items.YOLLAR_VALUE_0_50),
+        Map.entry(1.0, Items.YOLLAR_VALUE_1_00),
+        Map.entry(3.0, Items.YOLLAR_VALUE_3_00),
+        Map.entry(5.0, Items.YOLLAR_VALUE_5_00),
+        Map.entry(10.0, Items.YOLLAR_VALUE_10_00),
+        Map.entry(50.0, Items.YOLLAR_VALUE_50_00),
+        Map.entry(100.0, Items.YOLLAR_VALUE_100_00),
+        Map.entry(500.0, Items.YOLLAR_VALUE_500_00),
+        Map.entry(HIGHEST_DENOMINATION, Items.YOLLAR_VALUE_1000_00)
     );
 
     @NotNull
@@ -161,7 +161,7 @@ public class PlayerBankData {
                 nextDenomination = Math.max(nextDenomination, denomination);
             }
 
-            amount -= nextDenomination;
+            amount = Math.round((amount - nextDenomination) * 100) / 100D;
             consumer.accept(new ItemStack(DENOMINATION_TO_ITEM.get(nextDenomination)));
         }
 

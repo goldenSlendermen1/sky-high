@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "sky-high:item/yollar_value_5_00"
+  }
+}
